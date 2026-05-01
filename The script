@@ -1,3 +1,15 @@
+local starterGui = game:GetService("StarterGui")
+
+wait(5)
+starterGui:SetCore("SendNotification", {
+Title = "made by BeefChurger on tiktok",
+Text = "tell me good video ideas"
+})
+wait(8)
+starterGui:SetCorr("SendNotification", {
+Title = "requirements"
+Text = "write it in english"
+})
 local player = game.Players.LocalPlayer
 local UIS = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
