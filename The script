@@ -1,0 +1,221 @@
+local player = game.Players.LocalPlayer
+local UIS = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+
+-- 🎬 VIDEO DATA
+local videos = {
+{
+id = "rbxassetid://5670826209",
+name = "BrikRick8",
+caption = "Luk aat mi briks!!1!!!11!1!1!!",
+user = "RickBlagde1997",
+pfp = "rbxassetid://4271280",
+},
+{
+id = "rbxassetid://5608321996",
+name = "ColaBacon9",
+caption = "Thirsty? Drink Bloxy Cola!",
+user = "BloxyCola.official"
+pfp = "rbxassetid://159773690",
+},
+{
+id = "rbxassetid://5670802294",
+name = "CheezJim",
+caption = "Tasty, Juicy, and Crispy!",
+user = "Cheesy Jim's",
+pfp = "rbxassetid://1315848875",
+},
+{
+id = "rbxassetid://5608368298",
+name = "BloxBox",
+caption = "AwesomeDragon9 and JimmySlim77 training session",
+user = "BoxingLeague.ofc",
+pfp = "rbxassetid://16713786293",
+},
+{
+id = "rbxassetid://5608360493",
+name = "Battler",
+caption = "RedHammer and BlueHammer",
+user = "BrickyBattler.87",
+pfp = "rbxassetid://295914288",
+},
+{
+id = "rbxassetid://5608330602",
+name = "SafetyBlox",
+caption = "Watch Your Step!#Health#Safety",
+user = "RobloxiaHeadSafety",
+pfp = "rbxassetid://348270612",
+},
+{
+id = "rbxassetid://5608281849",
+name = "Rea!1!",
+caption = "Magic Tricks P1",
+user = "ReanaJacobs",
+pfp = "rbxassetid://18443227966",
+},
+{
+id = "rbxassetid://5670806798",
+name = "BombSimDev",
+caption = "Coming Soon!",
+user = "RoblocksBomber",
+pfp = "rbxassetid://10488484",
+},
+{
+id = "rbxassetid://5670809466",
+name = "RNS06",
+caption = "Noobs are protesting against Robloxia Government!",
+user = "RobloxiaNews",
+pfp = "rbxassetid://116264066",
+},
+{
+id = "rbxassetid://5670824523",
+name = "SpeedingOToole",
+caption = "Going too fast I think",
+user = "SpeedsterToole",
+pfp = "rbxassetid://129154295024459",
+},
+
+local currentIndex = 1
+
+-- uiParent
+local gui = Instance.new("ScreenGui")
+gui.Parent = player:WaitForChild("PlayerGui")
+
+-- ui
+local panel = Instance.new("Frame")
+panel.Size = UDim2.new(0.4,0,1,0)
+panel.Position = UDim2.new(1,0,0,0)
+panel.BackgroundColor3 = Color3.new(0,0,0)
+panel.Parent = gui
+
+-- video size
+local videoFrame = Instance.new("VideoFrame")
+videoFrame.Size = UDim2.new(1,0,1,0)
+videoFrame.Parent = panel
+
+-- like button
+local likeBtn = Instance.new("TextButton")
+likeBtn.Size = UDim2.new(0.25,0,0.08,0)
+likeBtn.Position = UDim2.new(0.7,0,0.7,0)
+likeBtn.TextScaled = true
+likeBtn.Text = "🤍"
+likeBtn.Parent = panel
+
+-- name
+local nameLabel = Instance.new("TextLabel")
+nameLabel.Size = UDim2.new(0.8,0,0.06,0)
+nameLabel.Position = UDim2.new(0.1,0,0.7,0)
+nameLabel.TextScaled = true
+nameLabel.TextColor3 = Color3.new(1,1,1)
+nameLabel.BackgroundTransparency = 1
+nameLabel.Parent = panel
+
+-- captions
+local caption = Instance.new("TextLabel")
+caption.Size = UDim2.new(0.8,0,0.08,0)
+caption.Position = UDim2.new(0.1,0,0.78,0)
+caption.TextScaled = true
+caption.TextColor3 = Color3.new(1,1,1)
+caption.BackgroundTransparency = 1
+caption.Parent = panel
+
+-- profile picture
+local pfp = Instance.new("ImageLabel")
+pfp.Size = UDim2.new(0.12,0,0.12,0)
+pfp.Position = UDim2.new(0.05,0,0.6,0)
+pfp.BackgroundTransparency = 1
+pfp.Parent = panel
+
+-- username
+local userLabel = Instance.new("TextLabel")
+userLabel.Size = UDim2.new(0.5,0,0.05,0)
+userLabel.Position = UDim2.new(0.2,0,0.63,0)
+userLabel.TextScaled = true
+userLabel.TextColor3 = Color3.new(1,1,1)
+userLabel.BackgroundTransparency = 1
+userLabel.TextXAlignment = Enum.TextXAlignment.Left
+userLabel.Parent = panel
+
+-- verified badge(hard to get)
+local verifiedBadge = Instance.new("TextLabel")
+verifiedBadge.Size = UDim2.new(0.08,0,0.05,0)
+verifiedBadge.Position = UDim2.new(0.55,0,0.63,0)
+verifiedBadge.TextScaled = true
+verifiedBadge.Text = "☑️"
+verifiedBadge.BackgroundTransparency = 1
+verifiedBadge.Visible = false
+verifiedBadge.Parent = panel
+
+-- toggle
+local toggleBtn = Instance.new("TextButton")
+toggleBtn.Size = UDim2.new(0.08,0,0.08,0)
+toggleBtn.Position = UDim2.new(0.9,0,0.1,0)
+toggleBtn.Text = "≡"
+toggleBtn.TextScaled = true
+toggleBtn.Parent = gui
+
+-- video player
+local function loadVideo(index)
+local data = videos[index]
+
+videoFrame.Video = data.id
+videoFrame:Play()
+
+nameLabel.Text = data.name
+caption.Text = data.caption
+userLabel.Text = "@" .. data.user
+pfp.Image = data.pfp
+
+verifiedBadge.Visible = data.verified
+end
+
+-- like system(can be modified)
+local liked = false
+likeBtn.MouseButton1Click:Connect(function()
+liked = not liked
+likeBtn.Text = liked and "❤️" or "🤍"
+end)
+
+-- 📱 SWIPE
+local startY = nil
+
+UIS.InputBegan:Connect(function(input)
+if input.UserInputType == Enum.UserInputType.Touch then
+startY = input.Position.Y
+end
+end)
+
+UIS.InputEnded:Connect(function(input)
+if input.UserInputType == Enum.UserInputType.Touch and startY then
+local delta = input.Position.Y - startY
+
+if delta < -50 then
+currentIndex += 1
+if currentIndex > #videos then currentIndex = 1 end
+elseif delta > 50 then
+currentIndex -= 1
+if currentIndex < 1 then currentIndex = #videos end
+end
+
+loadVideo(currentIndex)
+startY = nil
+end
+end)
+
+-- panel toggle, dont touch here
+local open = false
+
+toggleBtn.MouseButton1Click:Connect(function()
+open = not open
+local goal = {}
+if open then
+goal.Position = UDim2.new(0.6,0,0,0)
+else
+goal.Position = UDim2.new(1,0,0,0)
+end
+
+TweenService:Create(panel, TweenInfo.new(0.4), goal):Play()
+end)
+
+-- START
+loadVideo(currentIndex)
